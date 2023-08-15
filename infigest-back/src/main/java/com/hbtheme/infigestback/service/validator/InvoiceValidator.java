@@ -1,6 +1,7 @@
 package com.hbtheme.infigestback.service.validator;
 
 import com.hbtheme.infigestback.dto.InvoiceRequest;
+import com.hbtheme.infigestback.service.CustomerInvoiceService;
 import com.hbtheme.infigestback.service.PatientService;
 import com.hbtheme.infigestback.tools.DateUtils;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,8 @@ import java.util.List;
 @Component
 public class InvoiceValidator extends BaseValidator {
 
-	public InvoiceValidator(PatientService patientService) {
-		super(patientService);
+	public InvoiceValidator(PatientService patientService, CustomerInvoiceService customerInvoiceService) {
+		super(patientService, customerInvoiceService);
 	}
 
 	public List<String> validate(InvoiceRequest invoiceRequest, boolean isIdRequired) {
@@ -26,6 +27,7 @@ public class InvoiceValidator extends BaseValidator {
 		errors.add(validateDateFormat(invoiceRequest.getCareStartDate(), "care start date"));
 		errors.add(validateDateFormat(invoiceRequest.getCareEndDate(), "care end date"));
 		errors.add(validateCareDates(invoiceRequest.getCareStartDate(), invoiceRequest.getCareEndDate()));
+		errors.add(validateCustomerInvoice(invoiceRequest.getCustomerInvoiceId(), invoiceRequest.getStateRegisteredNurseId()));
 		errors.removeIf(String::isEmpty);
 		return errors;
 	}

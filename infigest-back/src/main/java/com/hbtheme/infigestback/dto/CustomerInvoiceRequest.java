@@ -13,6 +13,4 @@ public class CustomerInvoiceRequest {
 	private Long id;
 	private String customerInvoiceNumber;
 	private Long stateRegisteredNurseId;
-	private BigDecimal amount;
-	
 }

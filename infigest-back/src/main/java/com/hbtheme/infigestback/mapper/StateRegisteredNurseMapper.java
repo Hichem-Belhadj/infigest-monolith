@@ -12,6 +12,7 @@ public class StateRegisteredNurseMapper {
 
 	public StateRegisteredNurse toModel(StateRegisteredNurseRequest stateRegisteredNurseRequest) {
 		return StateRegisteredNurse.builder()
+				.id(stateRegisteredNurseRequest.getId())
 				.firstName(stateRegisteredNurseRequest.getFirstName())
 				.lastName(stateRegisteredNurseRequest.getLastName())
 				.build();

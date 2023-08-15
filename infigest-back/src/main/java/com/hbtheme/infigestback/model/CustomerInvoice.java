@@ -22,7 +22,6 @@ public class CustomerInvoice {
     @ManyToOne(optional = false)
     private StateRegisteredNurse stateRegisteredNurse;
 
-    @Column(nullable = false)
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "customerInvoice")

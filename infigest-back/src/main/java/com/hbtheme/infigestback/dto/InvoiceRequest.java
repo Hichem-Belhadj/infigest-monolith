@@ -18,7 +18,6 @@ public class InvoiceRequest {
 	private String invoiceDate;
 	private String careStartDate;
 	private String careEndDate;
-	private BigDecimal totalBilled;
 	private String rejectionFeedback;
 	private BigDecimal cpamPayment;
 	private BigDecimal insurancePayment;

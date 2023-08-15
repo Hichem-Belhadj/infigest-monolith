@@ -28,7 +28,6 @@ public class CustomerInvoiceMapper {
 				.id(customerInvoiceRequest.getId())
 				.customerInvoiceNumber(customerInvoiceRequest.getCustomerInvoiceNumber())
 				.stateRegisteredNurse(stateRegisteredNurse)
-				.amount(customerInvoiceRequest.getAmount())
 				.build();
 	}
 

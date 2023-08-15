@@ -43,8 +43,7 @@ public class Invoice {
 
     private BigDecimal patientShare;
 
-    @Lob
-    @Column(length = 512)
+    @Column(length=512, columnDefinition = "TEXT")
     private String comment;
 
     @ManyToOne

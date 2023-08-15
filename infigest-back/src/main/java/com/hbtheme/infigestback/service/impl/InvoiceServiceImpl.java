@@ -3,9 +3,12 @@ package com.hbtheme.infigestback.service.impl;
 import com.hbtheme.infigestback.dto.InvoiceRequest;
 import com.hbtheme.infigestback.mapper.InvoiceMapper;
 import com.hbtheme.infigestback.model.Invoice;
+import com.hbtheme.infigestback.model.InvoiceRejection;
 import com.hbtheme.infigestback.model.Patient;
 import com.hbtheme.infigestback.model.StateRegisteredNurse;
 import com.hbtheme.infigestback.repository.InvoiceDao;
+import com.hbtheme.infigestback.repository.InvoiceRejectionDao;
+import com.hbtheme.infigestback.service.CustomerInvoiceService;
 import com.hbtheme.infigestback.service.InvoiceService;
 import com.hbtheme.infigestback.service.PatientService;
 import com.hbtheme.infigestback.service.StateRegisteredNurseService;
@@ -13,16 +16,21 @@ import com.hbtheme.infigestback.service.validator.InvoiceValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class InvoiceServiceImpl implements InvoiceService {
 	
 	private final InvoiceDao invoiceDao;
-	
+
+	private final CustomerInvoiceService customerInvoiceService;
+
 	private final InvoiceValidator invoiceValidator;
 
 	private final StateRegisteredNurseService stateRegisteredNurseService;
@@ -51,6 +59,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 		Invoice invoice = invoiceMapper.toModel(invoiceRequest, stateRegisteredNurse, patient);
 		invoiceDao.save(invoice);
+		customerInvoiceService.increaseCustomerInvoiceAmount(invoiceRequest.getCustomerInvoiceId());
 	}
 
 	@Override
@@ -74,8 +83,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 		if (id == null || findInvoiceById(id).isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		findInvoiceById(id);
+		Invoice invoice = findInvoiceById(id).get(0);
 		invoiceDao.deleteById(id);
+		customerInvoiceService.increaseCustomerInvoiceAmount(invoice.getCustomerInvoice().getId());
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.hbtheme.infigestback.service.validator;
 
+import com.hbtheme.infigestback.model.CustomerInvoice;
 import com.hbtheme.infigestback.model.Patient;
 import com.hbtheme.infigestback.model.StateRegisteredNurse;
+import com.hbtheme.infigestback.service.CustomerInvoiceService;
 import com.hbtheme.infigestback.service.PatientService;
 import com.hbtheme.infigestback.tools.DateUtils;
 
@@ -10,6 +12,12 @@ import java.util.List;
 public class BaseValidator {
 
 	private PatientService patientService;
+	private CustomerInvoiceService customerInvoiceService;
+
+	public BaseValidator(PatientService patientService, CustomerInvoiceService customerInvoiceService) {
+		this.patientService = patientService;
+		this.customerInvoiceService = customerInvoiceService;
+	}
 
 	public BaseValidator() {
 	}
@@ -78,6 +86,15 @@ public class BaseValidator {
 		}
 		if (!DateUtils.isValidDate(date)) {
 			error = String.format("The date format is invalid for %s", dateName);
+		}
+		return error;
+	}
+
+	protected String validateCustomerInvoice(Long customerInvoiceId, Long nurseId) {
+		String error = "";
+		CustomerInvoice customerInvoice = customerInvoiceService.findCustomerInvoiceById(customerInvoiceId).get(0);
+		if (!customerInvoice.getId().equals(nurseId)) {
+			error = "The nurse who performed the treatment does not match this invoice";
 		}
 		return error;
 	}

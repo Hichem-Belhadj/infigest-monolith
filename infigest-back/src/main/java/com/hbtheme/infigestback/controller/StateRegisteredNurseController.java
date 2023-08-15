@@ -1,6 +1,5 @@
 package com.hbtheme.infigestback.controller;
 
-import com.hbtheme.infigestback.dto.InsuranceResponse;
 import com.hbtheme.infigestback.dto.StateRegisteredNurseRequest;
 import com.hbtheme.infigestback.dto.StateRegisteredNurseResponse;
 import com.hbtheme.infigestback.dto.StateRegisteredNurseSimpleResponse;

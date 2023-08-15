@@ -3,7 +3,6 @@ package com.hbtheme.infigestback.controller;
 import com.hbtheme.infigestback.dto.CustomerInvoiceRequest;
 import com.hbtheme.infigestback.dto.CustomerInvoiceResponse;
 import com.hbtheme.infigestback.dto.CustomerInvoiceSimpleResponse;
-import com.hbtheme.infigestback.dto.PatientResponse;
 import com.hbtheme.infigestback.mapper.CustomerInvoiceMapper;
 import com.hbtheme.infigestback.service.CustomerInvoiceService;
 import com.hbtheme.infigestback.tools.Constant;

@@ -1,6 +1,7 @@
 package com.hbtheme.infigestback.service.validator;
 
 import com.hbtheme.infigestback.dto.InvoiceRejectionRequest;
+import com.hbtheme.infigestback.service.CustomerInvoiceService;
 import com.hbtheme.infigestback.service.PatientService;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,8 @@ import java.util.List;
 @Component
 public class InvoiceRejectionValidator extends BaseValidator {
 
-	public InvoiceRejectionValidator(PatientService patientService) {
-		super(patientService);
+	public InvoiceRejectionValidator(PatientService patientService, CustomerInvoiceService customerInvoiceService) {
+		super(patientService, customerInvoiceService);
 	}
 
 	public List<String> validate(InvoiceRejectionRequest invoiceRejectionRequest, boolean isIdRequired) {
@@ -22,6 +23,7 @@ public class InvoiceRejectionValidator extends BaseValidator {
 		errors.add(validatePatientId(invoiceRejectionRequest.getPatientId()));
 		errors.add(validateDateFormat(invoiceRejectionRequest.getFeedBackDate(), "feedback"));
 		errors.add(validateDateFormat(invoiceRejectionRequest.getPaymentDate(), "payment"));
+		errors.add(validateCustomerInvoice(invoiceRejectionRequest.getCustomerInvoiceId(), invoiceRejectionRequest.getStateRegisteredNurseId()));
 		errors.removeIf(String::isEmpty);
 		return errors;
 	}

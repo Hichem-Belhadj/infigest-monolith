@@ -6,6 +6,7 @@ import com.hbtheme.infigestback.model.InvoiceRejection;
 import com.hbtheme.infigestback.model.Patient;
 import com.hbtheme.infigestback.model.StateRegisteredNurse;
 import com.hbtheme.infigestback.repository.InvoiceRejectionDao;
+import com.hbtheme.infigestback.service.CustomerInvoiceService;
 import com.hbtheme.infigestback.service.InvoiceRejectionService;
 import com.hbtheme.infigestback.service.PatientService;
 import com.hbtheme.infigestback.service.StateRegisteredNurseService;
@@ -22,6 +23,8 @@ import java.util.List;
 public class InvoiceRejectionServiceImpl implements InvoiceRejectionService {
 	
 	private final InvoiceRejectionDao invoiceRejectionDao;
+
+	private final CustomerInvoiceService customerInvoiceService;
 	
 	private final InvoiceRejectionValidator invoiceRejectionValidator;
 
@@ -51,7 +54,7 @@ public class InvoiceRejectionServiceImpl implements InvoiceRejectionService {
 		
 		InvoiceRejection invoiceRejection = invoiceRejectionMapper.toModel(invoiceRejectionRequest, stateRegisteredNurse, patient);
 		invoiceRejectionDao.save(invoiceRejection);
-		
+		customerInvoiceService.increaseCustomerInvoiceAmount(invoiceRejectionRequest.getCustomerInvoiceId());
 	}
 
 	@Override
@@ -75,8 +78,9 @@ public class InvoiceRejectionServiceImpl implements InvoiceRejectionService {
 		if (id == null || findInvoiceRejectionById(id).isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		findInvoiceRejectionById(id);
+		InvoiceRejection invoiceRejection = findInvoiceRejectionById(id).get(0);
 		invoiceRejectionDao.deleteById(id);
+		customerInvoiceService.increaseCustomerInvoiceAmount(invoiceRejection.getCustomerInvoice().getId());
 	}
 
 }

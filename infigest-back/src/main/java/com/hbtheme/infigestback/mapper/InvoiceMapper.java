@@ -24,6 +24,7 @@ public class InvoiceMapper extends BaseMapper {
 
 	public Invoice toModel(InvoiceRequest invoiceRequest, StateRegisteredNurse stateRegisteredNurse, Patient patient) {
 		return Invoice.builder()
+				.id(invoiceRequest.getId())
 				.stateRegisteredNurse(stateRegisteredNurse)
 				.patient(patient)
 				.batchNumber(invoiceRequest.getBatchNumber())
@@ -31,7 +32,7 @@ public class InvoiceMapper extends BaseMapper {
 				.invoiceDate(DateUtils.parseStringToDate(invoiceRequest.getInvoiceDate()))
 				.careStartDate(DateUtils.parseStringToDate(invoiceRequest.getCareStartDate()))
 				.careEndDate(DateUtils.parseStringToDate(invoiceRequest.getCareEndDate()))
-				.totalBilled(invoiceRequest.getTotalBilled())
+				.totalBilled(invoiceRequest.getCpamPayment().add(invoiceRequest.getInsurancePayment().add(invoiceRequest.getPatientShare())))
 				.rejectionFeedback(invoiceRequest.getRejectionFeedback())
 				.cpamPayment(invoiceRequest.getCpamPayment())
 				.insurancePayment(invoiceRequest.getInsurancePayment())

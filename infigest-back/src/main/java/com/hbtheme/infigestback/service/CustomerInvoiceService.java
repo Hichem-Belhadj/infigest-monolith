@@ -15,4 +15,6 @@ public interface CustomerInvoiceService {
 
 	void deleteCustomerInvoiceById(Long id);
 
+	void increaseCustomerInvoiceAmount(Long customerInvoiceId);
+
 }

@@ -1,6 +1,8 @@
 package com.hbtheme.infigestback.service.validator;
 
 import com.hbtheme.infigestback.dto.PatientRequest;
+import com.hbtheme.infigestback.service.CustomerInvoiceService;
+import com.hbtheme.infigestback.service.PatientService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,6 +10,10 @@ import java.util.List;
 
 @Component
 public class PatientValidator extends BaseValidator {
+
+	public PatientValidator() {
+		super();
+	}
 
 	public List<String> validate(PatientRequest patientRequest, boolean isIdRequired) {
 		List<String> errors = new ArrayList<>();
@@ -21,7 +27,6 @@ public class PatientValidator extends BaseValidator {
 		}
 		errors.add(validateFirstName(patientRequest.getFirstName()));
 		errors.add(validateLastName(patientRequest.getLastName()));
-
 		errors.removeIf(String::isEmpty);
 		return errors;
 	}
